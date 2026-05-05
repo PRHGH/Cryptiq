@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="dark"
+      className={cn("dark", jetbrainsMono.variable, geistSans.variable, geistMono.variable)}
     >
       <body className="min-h-full flex flex-col">
         <Header />
