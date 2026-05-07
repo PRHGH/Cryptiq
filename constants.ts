@@ -21,19 +21,21 @@ export const navItems = [
 ];
 
 const CHART_COLORS = {
-  background: '#0b1116',
-  text: '#8f9fb1',
-  grid: '#1a2332',
-  border: '#1a2332',
-  crosshairVertical: '#ffffff40',
-  crosshairHorizontal: '#ffffff20',
-  candleUp: '#158A6E',
-  candleDown: '#EB1C36',
+  background: "#1a1612",
+  text: "#b8a890",
+  grid: "#3d3730",
+  border: "#3d3730",
+  crosshairVertical: "#b8a89060",
+  crosshairHorizontal: "#b8a89030",
+  candleUp: "#7fb069",
+  candleDown: "#d4736e",
 } as const;
 
 export const getCandlestickConfig = (): CandlestickSeriesPartialOptions => ({
   upColor: CHART_COLORS.candleUp,
   downColor: CHART_COLORS.candleDown,
+  borderUpColor: CHART_COLORS.candleUp,
+  borderDownColor: CHART_COLORS.candleDown,
   wickUpColor: CHART_COLORS.candleUp,
   wickDownColor: CHART_COLORS.candleDown,
   borderVisible: true,
