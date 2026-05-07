@@ -321,10 +321,14 @@
     }
 
     .top-gainers-cell {
-      @apply flex gap-1 mr-5;
+      @apply mr-5 whitespace-nowrap;
+
+      .top-gainers-list {
+        @apply inline-flex items-center gap-1;
+      }
 
       img {
-        @apply rounded-full py-2;
+        @apply inline-block rounded-full py-2 mr-1 align-middle last:mr-0;
       }
     }
 
@@ -380,7 +384,7 @@
       }
 
       .price-change {
-        @apply flex gap-1 items-center text-sm font-medium;
+        @apply flex gap-1.5 items-center text-sm font-medium;
       }
     }
   }
@@ -401,7 +405,11 @@
     }
 
     .top-gainers-cell {
-      @apply flex gap-1 mr-5;
+      @apply mr-5 whitespace-nowrap;
+
+      .top-gainers-list {
+        @apply inline-flex items-center gap-1;
+      }
     }
 
     .change-header-cell {
@@ -516,7 +524,7 @@
       }
 
       .price-change {
-        @apply flex gap-1 items-center text-sm font-medium;
+        @apply flex gap-1.5 items-center text-sm font-medium;
       }
     }
 
@@ -902,11 +910,11 @@
       }
 
       .page-link {
-        @apply hover:bg-dark-400! rounded-sm text-base cursor-pointer;
+        @apply rounded-sm! border border-purple-600/20 text-base cursor-pointer hover:bg-dark-400!;
       }
 
       .page-link-active {
-        @apply bg-green-500! text-dark-900 font-semibold;
+        @apply rounded-sm! border-purple-100 bg-purple-100 text-dark-900 font-semibold;
       }
     }
   }
