@@ -11,7 +11,13 @@ const Header = () => {
     <header>
       <div className="main-container inner">
         <Link href="/">
-          <Image src="/logo.svg" alt="SilkSignal logo" width={132} height={40} />
+          <Image
+            src="/logo.svg"
+            alt="SilkSignal logo"
+            width={132}
+            height={40}
+            style={{ width: "auto", height: "auto" }}
+          />
         </Link>
 
         <nav>

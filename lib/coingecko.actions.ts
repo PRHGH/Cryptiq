@@ -6,11 +6,12 @@ const BASE_URL = process.env.COINGECKO_BASE_URL;
 const API_KEY = process.env.COINGECKO_API_KEY;
 
 if (!BASE_URL) throw new Error("Could not get base url");
-if (!API_KEY) throw new Error("Could not api key ");
+if (!API_KEY) throw new Error("Could not get api key ");
 
 const API_KEY_HEADER = BASE_URL.includes("pro-api.coingecko.com")
   ? "x-cg-pro-api-key"
   : "x-cg-demo-api-key";
+const IS_PRO_API = BASE_URL.includes("pro-api.coingecko.com");
 
 export async function fetcher<T>(
   endpoint: string,
@@ -18,10 +19,14 @@ export async function fetcher<T>(
   revalidate = 60,
 ): Promise<T> {
   const normalizedEndpoint = endpoint.replace(/^\/+/, "");
+  const normalizedParams =
+    normalizedEndpoint.endsWith("/ohlc") && !IS_PRO_API && params
+      ? normalizeDemoOHLCParams(params)
+      : params;
   const url = qs.stringifyUrl(
     {
       url: `${BASE_URL}/${normalizedEndpoint}`,
-      query: params,
+      query: normalizedParams,
     },
     { skipEmptyString: true, skipNull: true },
   );
@@ -35,10 +40,22 @@ export async function fetcher<T>(
   });
 
   if (!response.ok) {
-    const errorBody: CoinGeckoErrorBody = await response.json().catch(() => {});
+    const errorBody = await response.json().catch(() => null);
 
-    throw new Error(`API Error:  ${response.status} : ${errorBody.error || response.statusText}`);
+    const message = errorBody?.error || errorBody?.message || response.statusText;
+
+    throw new Error(`API Error: ${response.status}: ${message}`);
   }
 
   return response.json();
+}
+
+function normalizeDemoOHLCParams(params: QueryParams): QueryParams {
+  const normalizedParams = { ...params };
+  delete normalizedParams.interval;
+
+  return {
+    ...normalizedParams,
+    days: normalizedParams.days === "max" ? 365 : normalizedParams.days,
+  };
 }
