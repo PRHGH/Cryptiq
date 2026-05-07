@@ -910,11 +910,11 @@
       }
 
       .page-link {
-        @apply rounded-sm! border border-purple-600/20 text-base cursor-pointer hover:bg-dark-400!;
+        @apply rounded-sm! border! border-purple-600/30! bg-transparent! text-base text-white! cursor-pointer hover:bg-dark-400!;
       }
 
       .page-link-active {
-        @apply rounded-sm! border-purple-100 bg-purple-100 text-dark-900 font-semibold;
+        @apply rounded-sm! border-purple-100! bg-purple-100! text-dark-900! font-semibold hover:bg-purple-100!;
       }
     }
   }

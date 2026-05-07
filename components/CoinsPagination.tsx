@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
-import { useRouter } from 'next/navigation';
-import { buildPageNumbers, cn, ELLIPSIS } from '@/lib/utils';
+} from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
+import { buildPageNumbers, cn, ELLIPSIS } from "@/lib/utils";
 
 const CoinsPagination = ({ currentPage, totalPages, hasMorePages }: Pagination) => {
   const router = useRouter();
@@ -28,7 +27,7 @@ const CoinsPagination = ({ currentPage, totalPages, hasMorePages }: Pagination) 
         <PaginationItem className="pagination-control prev">
           <PaginationPrevious
             onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-            className={currentPage === 1 ? 'control-disabled' : 'control-button'}
+            className={currentPage === 1 ? "control-disabled" : "control-button"}
           />
         </PaginationItem>
 
@@ -40,8 +39,9 @@ const CoinsPagination = ({ currentPage, totalPages, hasMorePages }: Pagination) 
               ) : (
                 <PaginationLink
                   onClick={() => handlePageChange(page)}
-                  className={cn('page-link', {
-                    'page-link-active': currentPage === page,
+                  isActive={currentPage === page}
+                  className={cn("page-link", {
+                    "page-link-active": currentPage === page,
                   })}
                 >
                   {page}
@@ -54,7 +54,7 @@ const CoinsPagination = ({ currentPage, totalPages, hasMorePages }: Pagination) 
         <PaginationItem className="pagination-control next">
           <PaginationNext
             onClick={() => !isLastPage && handlePageChange(currentPage + 1)}
-            className={isLastPage ? 'control-disabled' : 'control-button'}
+            className={isLastPage ? "control-disabled" : "control-button"}
           />
         </PaginationItem>
       </PaginationContent>
