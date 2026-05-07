@@ -60,6 +60,10 @@ const CandlestickChart = ({
 
     const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
 
+        const convertedToSeconds = ohlcData.map(
+      (item) => [Math.floor(item[0] / 1000), item[1], item[2], item[3], item[4]] as OHLCData,
+    );
+
     chartRef.current = chart;
     candleSeriesRef.current = series;
 
@@ -94,7 +98,7 @@ const CandlestickChart = ({
       <div className="chart-header">
         <div className="flex-1">{children}</div>
         <div className="button-group">
-          <span className="text-sm mx=2 font-medium text-purple-100/50">Period:</span>
+          <span className="text-sm mx-2 font-medium text-purple-100/50">Period:</span>
           {PERIOD_BUTTONS.map(({ value, label }) => (
             <button
               key={value}
