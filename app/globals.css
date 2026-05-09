@@ -60,6 +60,13 @@
   --crypto-text-muted: #817769;
   --shadow-card: 0 18px 60px rgba(0, 0, 0, 0.34);
   --shadow-elevated: 0 24px 90px rgba(0, 0, 0, 0.46), 0 0 50px rgba(200, 164, 108, 0.05);
+  --terminal-border: #6f6555;
+  --terminal-muted: #b9aa92;
+  --positive: #77b66e;
+  --positive-hover: #84c37b;
+  --positive-soft: #9ad490;
+  --negative: #e07873;
+  --brand-accent: #c8a46c;
 }
 
 .dark {
@@ -298,6 +305,7 @@
 
   header {
     @apply h-20 border-b border-border-muted/20 bg-bg-app/85 backdrop-blur-xl;
+
     box-shadow: 0 1px 0 rgba(200, 164, 108, 0.06);
 
     .inner {
@@ -319,6 +327,7 @@
 
       .brand-mark {
         @apply grid size-10 place-items-center rounded-md border border-brand-accent/30 bg-surface-elevated/70 text-sm font-semibold text-brand-accent;
+
         box-shadow:
           inset 0 0 24px rgba(200, 164, 108, 0.08),
           0 0 30px rgba(200, 164, 108, 0.06);
@@ -348,6 +357,7 @@
 
         .nav-link.is-active {
           @apply text-white;
+
           box-shadow: inset 0 -1px 0 var(--crypto-accent-gold);
         }
 
@@ -360,6 +370,7 @@
 
   #candlestick-chart {
     @apply p-4 mt-5 rounded-lg border border-border-muted/20 bg-surface transition-all;
+
     box-shadow: var(--shadow-elevated);
 
     .chart-header {
@@ -393,6 +404,7 @@
       @apply rounded-sm px-2.5 py-1.5 border border-positive/30 cursor-pointer text-sm text-gray-950 bg-positive transition-all;
 
       font-family: var(--font-space-mono), ui-monospace, monospace;
+
       box-shadow: 0 0 24px rgba(119, 182, 110, 0.16);
     }
 
@@ -403,6 +415,7 @@
 
   #coin-card {
     @apply bg-surface hover:bg-surface-elevated/50 transition-all rounded-lg p-5 border border-border-muted/20 hover:border-brand-accent/30 cursor-pointer h-fit;
+
     box-shadow: var(--shadow-card);
 
     .header {
@@ -454,6 +467,7 @@
 
   #categories {
     @apply pt-8 mt-5 w-full bg-surface rounded-xl overflow-hidden border border-border-muted/20;
+
     box-shadow: var(--shadow-card);
 
     h4 {
@@ -501,6 +515,7 @@
 
   #trending-coins {
     @apply w-full flex flex-col justify-center h-full py-4 bg-surface/80 rounded-xl border border-border-muted/15;
+
     box-shadow: var(--shadow-card);
 
     h4 {
@@ -761,6 +776,7 @@
     [data-slot="table-container"]:has(.exchange-listings-table),
     [data-slot="table-container"]:has(.exchange-table) {
       @apply mt-5 rounded-xl border border-border-muted/20 bg-surface overflow-hidden;
+
       box-shadow: var(--shadow-card);
     }
 
@@ -802,7 +818,9 @@
 
     .coins-search-input {
       @apply h-11 rounded-lg! border border-border-muted/20 bg-surface px-3 text-sm text-white placeholder:text-text-secondary/70 focus-visible:border-brand-accent/40 focus-visible:ring-brand-accent/20;
+
       box-shadow: var(--shadow-card);
+
       font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
@@ -852,6 +870,7 @@
 
     [data-slot="table-container"]:has(.coins-table) {
       @apply rounded-xl border border-border-muted/20 bg-surface overflow-hidden;
+
       box-shadow: var(--shadow-card);
     }
   }
@@ -859,7 +878,9 @@
   #search-modal {
     .trigger {
       @apply h-10 rounded-lg! border border-border-muted/20 bg-surface/70 px-3 text-sm text-text-secondary transition-all hover:border-brand-accent/30 hover:bg-surface-elevated/80 hover:text-white;
+
       box-shadow: inset 0 0 0 1px rgba(200, 164, 108, 0.02);
+
       font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
@@ -905,14 +926,19 @@
 
     .search-item {
       @apply grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-transparent px-3 py-3 text-left transition-all !cursor-pointer hover:border-brand-accent/20 hover:bg-surface-elevated/60 data-[selected=true]:border-brand-accent/25 data-[selected=true]:bg-surface-elevated/80;
+
       box-shadow: inset 0 0 0 1px rgba(200, 164, 108, 0.01);
 
-      .coin-info {
+      .coin-left {
         @apply flex min-w-0 gap-3 items-center;
 
         img {
           @apply size-9 rounded-full ring-1 ring-border-muted/15;
         }
+      }
+
+      .coin-info {
+        @apply min-w-0;
 
         div {
           @apply flex flex-col;
@@ -950,9 +976,11 @@
     background: var(--crypto-bg-card) !important;
     border: 1px solid var(--crypto-border);
     color: var(--crypto-text-secondary);
+
     box-shadow:
       0 24px 80px rgba(0, 0, 0, 0.58),
       0 0 0 1px rgba(200, 164, 108, 0.04);
+
     font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
 
     [data-slot="command"] {
@@ -1011,6 +1039,14 @@
       }
     }
 
+    .coin-left {
+      @apply flex min-w-0 items-center gap-3;
+
+      img {
+        @apply size-9 rounded-full ring-1 ring-border-muted/15;
+      }
+    }
+
     .coin-info p:first-child,
     .coin-price {
       color: var(--crypto-text-primary);
@@ -1030,6 +1066,7 @@
 
     .panel {
       @apply space-y-2 bg-surface px-5 py-7 rounded-lg border border-border-muted/20;
+
       box-shadow: var(--shadow-card);
     }
 
@@ -1155,6 +1192,7 @@
 
   #coin-overview {
     @apply w-full h-full xl:col-span-2 px-2 bg-surface rounded-xl border border-border-muted/20;
+
     box-shadow: var(--shadow-elevated);
 
     .header {
@@ -1190,6 +1228,7 @@
 
     .sentiment-panel {
       @apply bg-surface rounded-xl p-5 space-y-5 border border-border-muted/20;
+
       box-shadow: var(--shadow-card);
     }
 
@@ -1371,11 +1410,13 @@
   0%,
   100% {
     opacity: 0.35;
+
     box-shadow: 0 0 0 0 rgba(119, 182, 110, 0);
   }
 
   50% {
     opacity: 1;
+
     box-shadow: 0 0 0 5px rgba(119, 182, 110, 0.1);
   }
 }

@@ -20,14 +20,14 @@ const CoinHeader = ({
       label: "Today",
       value: priceChangePercentage24h,
       direction: todayDirection,
-      formatter: formatCurrency,
+      formatter: formatPercentage,
       showIcon: true,
     },
     {
       label: "30 Days",
       value: priceChangePercentage30d,
       direction: thirtyDayDirection,
-      formatter: formatCurrency,
+      formatter: formatPercentage,
       showIcon: true,
     },
     {

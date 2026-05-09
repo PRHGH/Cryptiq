@@ -5,6 +5,7 @@ import { useDebounce } from "react-use";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
+import { useEffect } from "react";
 
 type CoinsSearchInputProps = {
   initialQuery: string;
@@ -15,6 +16,10 @@ const CoinsSearchInput = ({ initialQuery }: CoinsSearchInputProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    queueMicrotask(() => setValue(initialQuery));
+  }, [initialQuery]);
 
   useDebounce(
     () => {

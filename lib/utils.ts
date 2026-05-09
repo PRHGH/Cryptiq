@@ -70,12 +70,22 @@ export function formatCompactNumber(value: number | null | undefined): string {
 }
 
 export function trendingClasses(value: number) {
-  const isTrendingUp = value > 0;
+  const direction = getTrendDirection(value);
 
   return {
-    textClass: isTrendingUp ? "text-positive-hover" : "text-negative",
-    bgClass: isTrendingUp ? "bg-positive/10" : "bg-negative/10",
-    iconClass: isTrendingUp ? "icon-up" : "icon-down",
+    textClass:
+      direction === "up"
+        ? "text-positive-hover"
+        : direction === "down"
+          ? "text-negative"
+          : "text-text-secondary",
+    bgClass:
+      direction === "up"
+        ? "bg-positive/10"
+        : direction === "down"
+          ? "bg-negative/10"
+          : "bg-text-secondary/10",
+    iconClass: direction === "up" ? "icon-up" : direction === "down" ? "icon-down" : "icon-flat",
   };
 }
 

@@ -11,6 +11,9 @@ export const useCoinGeckoWebSocket = ({
 }: UseCoinGeckoWebSocketProps): UseCoinGeckoWebSocketReturn => {
   const wsRef = useRef<WebSocket | null>(null);
   const subscribed = useRef(<Set<string>>new Set());
+  const latestContextRef = useRef({ coinId, poolId });
+
+  latestContextRef.current = { coinId, poolId };
 
   const [price, setPrice] = useState<ExtendedPriceData | null>(null);
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -79,7 +82,14 @@ export const useCoinGeckoWebSocket = ({
 
     ws.onclose = () => setIsWsReady(false);
 
-    ws.onerror = () => {
+    ws.onerror = (event) => {
+      const { coinId: currentCoinId, poolId: currentPoolId } = latestContextRef.current;
+
+      console.error("CoinGecko WebSocket error", {
+        coinId: currentCoinId,
+        poolId: currentPoolId,
+        event,
+      });
       setIsWsReady(false);
     };
 
@@ -128,7 +138,7 @@ export const useCoinGeckoWebSocket = ({
       subscribe("CGSimplePrice", { coin_id: [coinId], action: "set_tokens" });
     });
 
-    const poolAddress = poolId.replace("_", ":") ?? "";
+    const poolAddress = poolId?.replaceAll("_", ":") ?? "";
 
     if (poolAddress) {
       subscribe("OnchainTrade", {

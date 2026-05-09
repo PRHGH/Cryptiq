@@ -12,23 +12,32 @@ import { useDebounce, useKey } from "react-use";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import useSWR from "swr";
-import { getTrendingCoins, searchCoins } from "@/lib/coingecko.actions";
 import Image from "next/image";
 import { cn, formatCurrency, formatPercentage, getTrendDirection } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+
+const fetchJson = async <T,>(url: string): Promise<T> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Search request failed: ${response.status}`);
+  }
+
+  return response.json();
+};
 
 export function SearchModal() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
-  const { data: coins = [], isLoading } = useSWR(
-    debouncedQuery ? debouncedQuery : null,
-    searchCoins,
+  const { data: coins = [], isLoading } = useSWR<SearchCoin[]>(
+    debouncedQuery ? `/api/coins/search?q=${encodeURIComponent(debouncedQuery)}` : null,
+    fetchJson,
   );
   const { data: trendingCoins = [], isLoading: isTrendingLoading } = useSWR(
-    debouncedQuery ? null : "trending-coins",
-    () => getTrendingCoins(5),
+    debouncedQuery ? null : "/api/coins/trending?limit=5",
+    fetchJson<TrendingCoin["item"][]>,
   );
 
   const router = useRouter();
@@ -136,17 +145,19 @@ function SearchCoinRow({ coin, onSelect, variant }: SearchModalCoinRowProps) {
       value={`${coin.name} ${coin.symbol}`}
       onSelect={() => onSelect(coin.id)}
     >
-      <Image
-        src={coin.thumb || coin.large}
-        alt={coin.name}
-        width={28}
-        height={28}
-        className="rounded-full"
-      />
+      <div className="coin-left">
+        <Image
+          src={coin.thumb || coin.large}
+          alt={coin.name}
+          width={28}
+          height={28}
+          className="rounded-full"
+        />
 
-      <div className="coin-info min-w-0 flex-1">
-        <p className="truncate font-medium">{coin.name}</p>
-        <p className="coin-symbol">{coin.symbol}</p>
+        <div className="coin-info min-w-0 flex-1">
+          <p className="truncate font-medium">{coin.name}</p>
+          <p className="coin-symbol">{coin.symbol}</p>
+        </div>
       </div>
 
       <div className="coin-meta ml-auto flex flex-col items-end gap-0.5 text-right">
