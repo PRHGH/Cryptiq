@@ -59,29 +59,28 @@ const CoinHeader = ({
 
       <ul className="stats">
         {stats.map((stat) => (
-            <li key={stat.label}>
-                <p className="label">
-                    {stat.label}
-                </p>
+          <li key={stat.label}>
+            <p className="label">{stat.label}</p>
 
-                <div className={cn('value', {
-                    'text-green-500' : stat.isUp,
-                    'text-red-500' : !stat.isUp
-                })}>
-
-                <p>{stat.formatter(stat.value)}</p>
-                {stat.showIcon && (stat.isUp ? (
-                    <TrendingUp width={16} height={16} />
+            <div
+              className={cn('value', {
+                'text-green-500': stat.isUp,
+                'text-red-500': !stat.isUp,
+              })}
+            >
+              <p>{stat.formatter(stat.value)}</p>
+              {stat.showIcon &&
+                (stat.isUp ? (
+                  <TrendingUp width={16} height={16} />
                 ) : (
                   <TrendingDown width={16} height={16} />
                 ))}
-
-                </div>
-            </li>
+            </div>
+          </li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export default CoinHeader

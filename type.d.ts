@@ -29,11 +29,15 @@ interface Ticker {
   };
   base: string;
   target: string;
-  converted_last: {
-    usd: number;
-  };
+  last: number;
   timestamp: string;
-  trade_url: string;
+  trade_url: string | null;
+  bid_ask_spread_percentage: number;
+}
+
+interface TickersResponse {
+  name: string;
+  tickers: Ticker[];
 }
 
 type Period = "daily" | "weekly" | "monthly" | "3months" | "6months" | "yearly" | "max";
@@ -214,6 +218,14 @@ interface CoinDetailsData {
   description: {
     en: string;
   };
+  sentiment_votes_up_percentage?: number | null;
+  sentiment_votes_down_percentage?: number | null;
+  community_data?: {
+    reddit_subscribers?: number | null;
+    telegram_channel_user_count?: number | null;
+    twitter_followers?: number | null;
+    facebook_likes?: number | null;
+  };
   links: {
     homepage: string[];
     blockchain_site: string[];
@@ -237,6 +249,12 @@ interface CoinHeaderProps {
   priceChangePercentage24h: number;
   priceChangePercentage30d: number;
   priceChange24h: number;
+}
+
+interface CoinCommunitySentimentCardProps {
+  sentimentVotesUpPercentage?: number | null;
+  sentimentVotesDownPercentage?: number | null;
+  communityData?: CoinDetailsData["community_data"];
 }
 
 interface Category {
