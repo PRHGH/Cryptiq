@@ -28,7 +28,18 @@ export const useCoinGeckoWebSocket = ({
     const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
 
     const handleMessage = (event: MessageEvent) => {
-      const msg: WebSocketMessage = JSON.parse(event.data);
+      if (typeof event.data !== "string") return;
+
+      let msg: WebSocketMessage;
+      try {
+        msg = JSON.parse(event.data) as WebSocketMessage;
+      } catch (error) {
+        console.error("Failed to parse CoinGecko WebSocket message", {
+          error,
+          data: event.data,
+        });
+        return;
+      }
 
       if (msg.type === "ping") {
         send({ type: "pong" });
@@ -122,7 +133,16 @@ export const useCoinGeckoWebSocket = ({
     const ws = wsRef.current;
     if (!ws) return;
 
-    const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
+    const send = (payload: Record<string, unknown>) => {
+      if (ws.readyState !== WebSocket.OPEN) return false;
+      try {
+        ws.send(JSON.stringify(payload));
+        return true;
+      } catch (error) {
+        console.error("CoinGecko WebSocket send failed", { error, payload });
+        return false;
+      }
+    };
 
     const unsubscribeAll = () => {
       subscribed.current.forEach((channel) => {
@@ -137,8 +157,7 @@ export const useCoinGeckoWebSocket = ({
 
     const subscribe = (channel: string, data?: Record<string, unknown>) => {
       if (subscribed.current.has(channel)) return;
-
-      send({ command: "subscribe", identifier: JSON.stringify({ channel }) });
+      if (!send({ command: "subscribe", identifier: JSON.stringify({ channel }) })) return;
 
       if (data) {
         send({
