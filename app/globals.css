@@ -257,6 +257,7 @@
 
   .badge {
     @apply rounded-full! font-medium mt-2 h-10 px-4 py-2 flex items-center gap-1.5 shadow-[0_0_24px_rgba(119,182,110,0.08)];
+
     font-family: var(--font-space-mono), ui-monospace, monospace;
   }
 
@@ -304,6 +305,7 @@
 
       .brand {
         @apply flex items-center gap-2 text-white;
+
         font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
       }
 
@@ -327,6 +329,7 @@
 
         .live-pill {
           @apply mr-2 hidden items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-xs font-medium text-green-500 sm:flex;
+
           font-family: var(--font-space-mono), ui-monospace, monospace;
 
           span {
@@ -357,6 +360,7 @@
 
     .chart-header {
       @apply flex flex-col gap-3 xl:flex-row xl:items-center mb-4 font-semibold text-[#f1ede4] text-[20px];
+
       font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
@@ -366,6 +370,7 @@
 
     .live-indicator {
       @apply flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-2.5 py-1 text-xs text-green-500;
+
       font-family: var(--font-space-mono), ui-monospace, monospace;
 
       span {
@@ -376,11 +381,13 @@
 
     .config-button {
       @apply rounded-sm border border-transparent cursor-pointer px-2.5 py-2 text-xs xl:text-sm text-purple-100 transition-all hover:border-green-500/30 hover:bg-dark-400 hover:text-white;
+
       font-family: var(--font-space-mono), ui-monospace, monospace;
     }
 
     .config-button-active {
       @apply rounded-sm px-2.5 py-1.5 border border-green-500/30 cursor-pointer text-sm text-gray-950 bg-green-500 transition-all;
+
       font-family: var(--font-space-mono), ui-monospace, monospace;
       box-shadow: 0 0 24px rgba(119, 182, 110, 0.16);
     }
@@ -415,6 +422,7 @@
 
       .price {
         @apply text-xl font-bold;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
@@ -450,6 +458,7 @@
 
     .category-cell {
       @apply pl-5 font-bold;
+
       font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
@@ -475,11 +484,13 @@
 
     .market-cap-cell {
       @apply font-medium;
+
       font-family: var(--font-space-mono), ui-monospace, monospace;
     }
 
     .volume-cell {
       @apply font-medium;
+
       font-family: var(--font-space-mono), ui-monospace, monospace;
     }
   }
@@ -517,11 +528,13 @@
 
       .price-cell {
         @apply font-bold pr-5 text-sm max-w-full truncate;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .price-change {
         @apply flex gap-1.5 items-center text-sm font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
@@ -704,6 +717,7 @@
 
       .exchange-cell {
         @apply text-yellow-500 font-bold;
+
         font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
 
         a {
@@ -721,11 +735,13 @@
 
       .price-cell {
         @apply font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .spread-cell {
         @apply font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
@@ -782,7 +798,6 @@
 
     .coins-table {
       @apply bg-dark-500 max-h-fit overflow-hidden;
-      box-shadow: var(--shadow-card);
 
       .rank-cell {
         @apply pl-5 max-w-20! py-5 font-medium text-purple-100;
@@ -806,6 +821,7 @@
 
       .price-cell {
         @apply py-4 font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
@@ -819,6 +835,7 @@
 
       .market-cap-cell {
         @apply pr-5 font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
@@ -914,6 +931,7 @@
 
       .input {
         @apply flex-1 text-lg! border-none font-medium bg-dark-400! focus-visible:ring-0 shadow-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
@@ -922,6 +940,7 @@
 
         p {
           @apply font-semibold text-base text-purple-100;
+
           font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
         }
       }
@@ -944,6 +963,7 @@
 
       p {
         @apply text-base font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
@@ -1001,6 +1021,7 @@
 
       h1 {
         @apply text-3xl sm:text-5xl xl:text-6xl font-semibold;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
         animation: value-pulse 3s ease-in-out infinite;
       }
@@ -1018,6 +1039,7 @@
 
         .value {
           @apply flex gap-1 flex-1 items-end text-base font-medium;
+
           font-family: var(--font-space-mono), ui-monospace, monospace;
         }
       }
@@ -1044,6 +1066,7 @@
 
         h1 {
           @apply text-xl md:text-2xl font-semibold;
+
           font-family: var(--font-space-mono), ui-monospace, monospace;
           animation: value-pulse 3s ease-in-out infinite;
         }
@@ -1072,11 +1095,13 @@
 
       .label {
         @apply text-sm text-purple-100;
+
         font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
       }
 
       .value {
         @apply mt-2 text-2xl font-semibold;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
@@ -1090,11 +1115,13 @@
 
       .label {
         @apply text-sm text-purple-100;
+
         font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
       }
 
       .value {
         @apply mt-2 min-w-0 break-words text-sm font-medium;
+
         font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
