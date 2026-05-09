@@ -11,7 +11,7 @@ const Header = () => {
     <header>
       <div className="main-container inner">
         <Link href="/" className="brand" aria-label="Cryptiq home">
-          <Image src="/logo.svg" alt="Cryptiq logo" width={80} height={32} />
+          <Image src="/logo.svg" alt="Cryptiq logo" width={32} height={32} className="brand-logo" />
           <span className="brand-text">Cryptiq</span>
         </Link>
 

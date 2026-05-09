@@ -42,7 +42,7 @@ export default function RootLayout({
       lang="en"
       className={cn("dark", inter.variable, ibmPlexMono.variable, spaceMono.variable)}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <Header />
         {children}
       </body>
