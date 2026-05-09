@@ -61,7 +61,7 @@ const Categories = async () => {
   ];
   return (
     <div id="categories" className="custom-scrollbar">
-      <h4>Top Cattegories</h4>
+      <h4>Top Categories</h4>
 
       <DataTable
         columns={columns}
