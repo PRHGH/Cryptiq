@@ -39,7 +39,10 @@ const Page = async ({ params }: NextPageProps) => {
 
     {
       label: "Market Cap Rank",
-      value: `# ${coinData.market_cap_rank.toFixed(2)}`,
+      value:
+        typeof coinData.market_cap_rank === "number"
+          ? `# ${coinData.market_cap_rank}`
+          : "N/A",
     },
 
     {
@@ -48,7 +51,7 @@ const Page = async ({ params }: NextPageProps) => {
     },
 
     {
-      label: "Wesite",
+      label: "Website",
       value: "-",
       link: coinData.links.homepage[0],
       linkText: "Homepage",
@@ -74,14 +77,18 @@ const Page = async ({ params }: NextPageProps) => {
       header: "Exchange",
       cellClassName: "exchange-cell",
       cell: (ticker) => (
-        <Link
-          href={ticker.trade_url || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Open ${ticker.market.name} trade`}
-        >
-          {ticker.market.name}
-        </Link>
+        ticker.trade_url ? (
+          <Link
+            href={ticker.trade_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${ticker.market.name} trade`}
+          >
+            {ticker.market.name}
+          </Link>
+        ) : (
+          <span aria-disabled="true">{ticker.market.name}</span>
+        )
       ),
     },
     {
@@ -168,7 +175,7 @@ const Page = async ({ params }: NextPageProps) => {
                 <p className="label">{label}</p>
                 {link ? (
                   <div className="link">
-                    <Link href={link} target="_blank">
+                    <Link href={link} target="_blank" rel="noopener noreferrer">
                       {linkText}
                     </Link>
                     <ArrowUpRight size={16} />
