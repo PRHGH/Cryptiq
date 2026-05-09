@@ -6,10 +6,10 @@
 
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
-  --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
+  --background: #0b0c0b;
+  --foreground: #f1ede4;
+  --card: #171613;
+  --card-foreground: #f1ede4;
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: #030213;
@@ -44,25 +44,29 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* Warm Earth Tone Theme */
-  --crypto-bg-primary: #1a1612;
-  --crypto-bg-secondary: #252118;
-  --crypto-bg-card: #2d2820;
-  --crypto-border: #3d3730;
-  --crypto-accent-gold: #d4a574;
+  /* Cryptiq terminal surface system */
+  --crypto-bg-primary: #0b0c0b;
+  --crypto-bg-secondary: #10110f;
+  --crypto-bg-card: #181713;
+  --crypto-bg-elevated: #201e19;
+  --crypto-border: #3a342a;
+  --crypto-border-bright: #6b604f;
+  --crypto-accent-gold: #c8a46c;
   --crypto-accent-bronze: #cd7f32;
-  --crypto-green: #7fb069;
-  --crypto-red: #d4736e;
-  --crypto-text-primary: #f5f1e8;
-  --crypto-text-secondary: #b8a890;
-  --crypto-text-muted: #8a7e6f;
+  --crypto-green: #77b66e;
+  --crypto-red: #e07873;
+  --crypto-text-primary: #f1ede4;
+  --crypto-text-secondary: #b9aa92;
+  --crypto-text-muted: #817769;
+  --shadow-card: 0 18px 60px rgba(0, 0, 0, 0.34);
+  --shadow-elevated: 0 24px 90px rgba(0, 0, 0, 0.46), 0 0 50px rgba(200, 164, 108, 0.05);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
+  --background: #0b0c0b;
+  --foreground: #f1ede4;
+  --card: #181713;
+  --card-foreground: #f1ede4;
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
@@ -94,25 +98,25 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   /* Brand colors - Warm Earth Tone Theme */
-  --dark-900: #1a1612;
-  --dark-700: #252118;
-  --dark-500: #2d2820;
-  --dark-400: #3d3730;
+  --dark-900: #0b0c0b;
+  --dark-700: #10110f;
+  --dark-500: #181713;
+  --dark-400: #26231d;
 
-  --purple-600: #8a7e6f;
-  --purple-100: #b8a890;
+  --purple-600: #6f6555;
+  --purple-100: #b9aa92;
 
-  --green-500: #7fb069;
-  --green-400: #7fb069;
-  --green-300: #7fb069;
+  --green-500: #77b66e;
+  --green-400: #84c37b;
+  --green-300: #9ad490;
 
-  --red-500: #d4736e;
-  --yellow-500: #d4a574;
+  --red-500: #e07873;
+  --yellow-500: #c8a46c;
 }
 
 @theme inline {
-  --font-sans: var(--font-robotic), system-ui, sans-serif;
-  --font-mono: var(--font-robotic), ui-monospace, monospace;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -173,14 +177,9 @@
     @apply bg-background text-foreground;
   }
   html {
-    /* @apply font-mono; */
-    font-family: var(--font-robotic), system-ui, sans-serif !important;
+    font-family: var(--font-inter), system-ui, sans-serif;
   }
-  *,
-  *::before,
-  *::after {
-    font-family: inherit !important;
-  }
+
   body,
   button,
   input,
@@ -189,7 +188,17 @@
   textarea,
   [role="button"],
   svg text {
-    font-family: var(--font-robotic), system-ui, sans-serif !important;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+    letter-spacing: 0;
   }
 }
 
@@ -198,7 +207,28 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-dark-700 text-foreground;
+    @apply bg-dark-900 text-foreground;
+    background:
+      radial-gradient(circle at 14% 0%, rgba(200, 164, 108, 0.08), transparent 32rem),
+      radial-gradient(circle at 78% 12%, rgba(119, 182, 110, 0.045), transparent 28rem),
+      linear-gradient(180deg, #0b0c0b 0%, #10110f 100%);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.22;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 100% 4px;
+    mix-blend-mode: soft-light;
+  }
+
+  body > * {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -211,8 +241,17 @@
     @apply py-6 md:py-12 mx-auto px-4 sm:px-6 max-w-360 w-full space-y-6 md:space-y-6;
   }
 
+  .font-terminal {
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  }
+
+  .font-number {
+    font-family: var(--font-space-mono), ui-monospace, monospace;
+  }
+
   .badge {
-    @apply rounded-full! font-medium mt-2 h-10 px-4 py-2 flex items-center gap-1.5;
+    @apply rounded-full! font-medium mt-2 h-10 px-4 py-2 flex items-center gap-1.5 shadow-[0_0_24px_rgba(119,182,110,0.08)];
+    font-family: var(--font-space-mono), ui-monospace, monospace;
   }
 
   .badge-up {
@@ -223,12 +262,32 @@
     @apply bg-red-500/20! text-red-500!;
   }
 
+  .price-cell,
+  .change-cell,
+  .change-value,
+  .market-cap-cell,
+  .volume-cell,
+  .amount-cell,
+  .value-cell,
+  .type-cell,
+  .time-cell {
+    font-family: var(--font-space-mono), ui-monospace, monospace;
+  }
+
   .skeleton {
-    @apply bg-dark-400/60;
+    @apply relative overflow-hidden bg-dark-400/60;
+  }
+
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgba(200, 164, 108, 0.1), transparent);
+    animation: terminal-scan 1.8s linear infinite;
   }
 
   header {
-    @apply border-b border-dark-400 h-20;
+    @apply h-20 border-b border-purple-600/20 bg-dark-900/85 backdrop-blur-xl;
+    box-shadow: 0 1px 0 rgba(200, 164, 108, 0.06);
 
     .inner {
       @apply flex justify-between items-center h-full;
@@ -237,15 +296,42 @@
         @apply mb-0;
       }
 
+      .brand {
+        @apply flex items-center gap-0 text-white;
+        font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+      }
+
+      .brand-mark {
+        @apply grid size-10 place-items-center rounded-md border border-yellow-500/30 bg-dark-400/70 text-sm font-semibold text-yellow-500;
+        box-shadow:
+          inset 0 0 24px rgba(200, 164, 108, 0.08),
+          0 0 30px rgba(200, 164, 108, 0.06);
+      }
+
+      .brand-text {
+        @apply text-xl font-semibold;
+      }
+
       nav {
-        @apply flex h-full items-center;
+        @apply flex h-full items-center gap-1;
+
+        .live-pill {
+          @apply mr-2 hidden items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-3 py-1 text-xs font-medium text-green-500 sm:flex;
+          font-family: var(--font-space-mono), ui-monospace, monospace;
+
+          span {
+            @apply size-1.5 rounded-full bg-green-500;
+            animation: live-blink 1.4s ease-in-out infinite;
+          }
+        }
 
         .nav-link {
-          @apply px-6 py-5 flex items-center transition-all hover:text-white font-medium h-full text-purple-100 cursor-pointer;
+          @apply px-4 py-5 flex items-center transition-all hover:text-white font-medium h-full text-purple-100 cursor-pointer;
         }
 
         .nav-link.is-active {
           @apply text-white;
+          box-shadow: inset 0 -1px 0 var(--crypto-accent-gold);
         }
 
         .nav-link.is-home {
@@ -256,22 +342,37 @@
   }
 
   #candlestick-chart {
-    @apply p-3 mt-5 rounded-lg bg-dark-500;
+    @apply p-4 mt-5 rounded-lg border border-purple-600/20 bg-dark-500 transition-all;
+    box-shadow: var(--shadow-elevated);
 
     .chart-header {
-      @apply flex flex-col gap-3 xl:flex-row xl:items-center mb-4 font-semibold text-[#e6eef8] text-[20px];
+      @apply flex flex-col gap-3 xl:flex-row xl:items-center mb-4 font-semibold text-[#f1ede4] text-[20px];
+      font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
     .button-group {
-      @apply flex gap-1 xl:gap-2 items-center;
+      @apply flex flex-wrap gap-1 xl:gap-2 items-center;
+    }
+
+    .live-indicator {
+      @apply flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-2.5 py-1 text-xs text-green-500;
+      font-family: var(--font-space-mono), ui-monospace, monospace;
+
+      span {
+        @apply size-1.5 rounded-full bg-green-500;
+        animation: live-blink 1.4s ease-in-out infinite;
+      }
     }
 
     .config-button {
-      @apply rounded-sm border-0 cursor-pointer px-2.5 py-2 text-xs xl:text-sm text-purple-100 hover:bg-dark-400 hover:text-white;
+      @apply rounded-sm border border-transparent cursor-pointer px-2.5 py-2 text-xs xl:text-sm text-purple-100 transition-all hover:border-green-500/30 hover:bg-dark-400 hover:text-white;
+      font-family: var(--font-space-mono), ui-monospace, monospace;
     }
 
     .config-button-active {
-      @apply rounded-sm px-2.5 py-1.5 border-0 cursor-pointer text-sm text-gray-900 bg-green-500;
+      @apply rounded-sm px-2.5 py-1.5 border border-green-500/30 cursor-pointer text-sm text-gray-950 bg-green-500 transition-all;
+      font-family: var(--font-space-mono), ui-monospace, monospace;
+      box-shadow: 0 0 24px rgba(119, 182, 110, 0.16);
     }
 
     .chart {
@@ -280,7 +381,8 @@
   }
 
   #coin-card {
-    @apply bg-dark-500 hover:bg-dark-400/50 transition-all rounded-lg p-5 border border-purple-600/20 hover:border-purple-600/50 cursor-pointer h-fit;
+    @apply bg-dark-500 hover:bg-dark-400/50 transition-all rounded-lg p-5 border border-purple-600/20 hover:border-yellow-500/30 cursor-pointer h-fit;
+    box-shadow: var(--shadow-card);
 
     .header {
       @apply flex gap-3 mb-4;
@@ -303,6 +405,7 @@
 
       .price {
         @apply text-xl font-bold;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .change {
@@ -328,7 +431,8 @@
   }
 
   #categories {
-    @apply pt-8 mt-5 w-full bg-dark-500 rounded-xl overflow-hidden;
+    @apply pt-8 mt-5 w-full bg-dark-500 rounded-xl overflow-hidden border border-purple-600/20;
+    box-shadow: var(--shadow-card);
 
     h4 {
       @apply text-xl md:text-2xl font-semibold mb-2 pl-5;
@@ -336,6 +440,7 @@
 
     .category-cell {
       @apply pl-5 font-bold;
+      font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     }
 
     .top-gainers-cell {
@@ -360,15 +465,18 @@
 
     .market-cap-cell {
       @apply font-medium;
+      font-family: var(--font-space-mono), ui-monospace, monospace;
     }
 
     .volume-cell {
       @apply font-medium;
+      font-family: var(--font-space-mono), ui-monospace, monospace;
     }
   }
 
   #trending-coins {
-    @apply w-full flex flex-col justify-center h-full py-4 bg-dark-500 rounded-xl;
+    @apply w-full flex flex-col justify-center h-full py-4 bg-dark-500/80 rounded-xl border border-purple-600/15;
+    box-shadow: var(--shadow-card);
 
     h4 {
       @apply text-xl md:text-2xl font-semibold mb-2 px-5;
@@ -399,10 +507,12 @@
 
       .price-cell {
         @apply font-bold pr-5 text-sm max-w-full truncate;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .price-change {
         @apply flex gap-1.5 items-center text-sm font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
   }
@@ -560,7 +670,7 @@
   }
 
   #coin-details-page {
-    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center gap-6 xl:gap-10 justify-center;
+    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-start gap-6 xl:gap-10 justify-center;
 
     .primary {
       @apply size-full xl:col-span-2;
@@ -580,13 +690,15 @@
 
     .exchange-listings-table,
     .exchange-table {
-      @apply bg-dark-500 rounded-xl overflow-hidden mt-5;
+      @apply bg-dark-500 rounded-xl overflow-hidden mt-5 border border-purple-600/20;
+      box-shadow: var(--shadow-card);
 
       .exchange-cell {
-        @apply text-green-500 font-bold;
+        @apply text-yellow-500 font-bold;
+        font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
 
         a {
-          @apply inline-flex max-w-35 truncate;
+          @apply inline-flex max-w-35 truncate transition-colors hover:text-white;
         }
       }
 
@@ -600,10 +712,12 @@
 
       .price-cell {
         @apply font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .spread-cell {
         @apply font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .updated-cell {
@@ -626,14 +740,14 @@
         @apply rounded-lg grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-3 sm:gap-5;
 
         li {
-          @apply text-base bg-dark-500 px-5 py-6 rounded-lg flex flex-col gap-3;
+          @apply text-base bg-dark-500 px-5 py-6 rounded-lg flex flex-col gap-3 border border-purple-600/20 transition-all hover:border-yellow-500/25 hover:bg-dark-400/40;
 
           .label {
             @apply text-purple-100;
           }
 
           .link {
-            @apply flex items-center text-green-500 gap-1;
+            @apply flex items-center text-yellow-500 gap-1 transition-colors hover:text-white;
           }
         }
       }
@@ -652,7 +766,8 @@
     }
 
     .coins-table {
-      @apply bg-dark-500 rounded-xl max-h-fit overflow-hidden;
+      @apply bg-dark-500 rounded-xl max-h-fit overflow-hidden border border-purple-600/20;
+      box-shadow: var(--shadow-card);
 
       .rank-cell {
         @apply pl-5 max-w-20! py-5 font-medium text-purple-100;
@@ -676,6 +791,7 @@
 
       .price-cell {
         @apply py-4 font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .change-cell {
@@ -688,6 +804,7 @@
 
       .market-cap-cell {
         @apply pr-5 font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
   }
@@ -768,14 +885,16 @@
     }
 
     .panel {
-      @apply space-y-2 bg-dark-500 px-5 py-7 rounded-lg;
+      @apply space-y-2 bg-dark-500 px-5 py-7 rounded-lg border border-purple-600/20;
+      box-shadow: var(--shadow-card);
     }
 
     .input-wrapper {
-      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pr-4;
+      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pr-4 border border-transparent transition-all focus-within:border-yellow-500/40 focus-within:shadow-[0_0_28px_rgba(200,164,108,0.08)];
 
       .input {
         @apply flex-1 text-lg! border-none font-medium bg-dark-400! focus-visible:ring-0 shadow-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .coin-info {
@@ -783,6 +902,7 @@
 
         p {
           @apply font-semibold text-base text-purple-100;
+          font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
         }
       }
     }
@@ -795,15 +915,16 @@
       }
 
       .icon {
-        @apply size-8 z-20 bg-dark-400 rounded-full p-2 text-green-500;
+        @apply size-8 z-20 bg-dark-400 rounded-full p-2 text-yellow-500;
       }
     }
 
     .output-wrapper {
-      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pl-4;
+      @apply bg-dark-400 h-12 w-full rounded-md flex items-center justify-between py-4 pl-4 border border-transparent transition-all hover:border-yellow-500/20;
 
       p {
         @apply text-base font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
 
       .select-trigger {
@@ -860,6 +981,8 @@
 
       h1 {
         @apply text-3xl sm:text-5xl xl:text-6xl font-semibold;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
+        animation: value-pulse 3s ease-in-out infinite;
       }
     }
 
@@ -867,7 +990,7 @@
       @apply grid grid-cols-3 mt-8 gap-4 sm:gap-6 w-fit;
 
       li {
-        @apply text-base border-r last:border-none border-purple-600 flex flex-col gap-2;
+        @apply text-base border-r last:border-none border-purple-600/40 flex flex-col gap-2 pr-4;
 
         .label {
           @apply text-purple-100 max-sm:text-sm;
@@ -875,13 +998,15 @@
 
         .value {
           @apply flex gap-1 flex-1 items-end text-base font-medium;
+          font-family: var(--font-space-mono), ui-monospace, monospace;
         }
       }
     }
   }
 
   #coin-overview {
-    @apply w-full h-full xl:col-span-2 px-2 bg-dark-500 rounded-xl;
+    @apply w-full h-full xl:col-span-2 px-2 bg-dark-500 rounded-xl border border-purple-600/20;
+    box-shadow: var(--shadow-elevated);
 
     .header {
       @apply flex-1 mb-2 flex gap-2 md:gap-3;
@@ -899,6 +1024,8 @@
 
         h1 {
           @apply text-xl md:text-2xl font-semibold;
+          font-family: var(--font-space-mono), ui-monospace, monospace;
+          animation: value-pulse 3s ease-in-out infinite;
         }
       }
     }
@@ -912,7 +1039,8 @@
     }
 
     .sentiment-panel {
-      @apply bg-dark-500 rounded-xl p-5 space-y-5;
+      @apply bg-dark-500 rounded-xl p-5 space-y-5 border border-purple-600/20;
+      box-shadow: var(--shadow-card);
     }
 
     .sentiment-row {
@@ -924,10 +1052,12 @@
 
       .label {
         @apply text-sm text-purple-100;
+        font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
       }
 
       .value {
         @apply mt-2 text-2xl font-semibold;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
 
@@ -940,10 +1070,12 @@
 
       .label {
         @apply text-sm text-purple-100;
+        font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
       }
 
       .value {
         @apply mt-2 min-w-0 break-words text-sm font-medium;
+        font-family: var(--font-space-mono), ui-monospace, monospace;
       }
     }
   }
@@ -994,7 +1126,7 @@
     @apply size-full xl:col-span-2;
 
     .divider {
-      @apply my-8! bg-purple-600!;
+      @apply my-8! bg-purple-600/50!;
     }
 
     .trend {
@@ -1079,4 +1211,34 @@
 
 .custom-scrollbar [data-slot="table-container"]::-webkit-scrollbar-thumb:hover {
   background: #171a34;
+}
+
+@keyframes live-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+    box-shadow: 0 0 0 0 rgba(119, 182, 110, 0);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 5px rgba(119, 182, 110, 0.1);
+  }
+}
+
+@keyframes value-pulse {
+  0%,
+  100% {
+    text-shadow: 0 0 0 rgba(200, 164, 108, 0);
+  }
+
+  50% {
+    text-shadow: 0 0 18px rgba(200, 164, 108, 0.08);
+  }
+}
+
+@keyframes terminal-scan {
+  100% {
+    transform: translateX(100%);
+  }
 }

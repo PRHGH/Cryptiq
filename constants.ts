@@ -2,31 +2,31 @@ import {
   CandlestickSeriesPartialOptions,
   ChartOptions,
   ColorType,
-  DeepPartial, 
-} from 'lightweight-charts';
+  DeepPartial,
+} from "lightweight-charts";
 
 export const navItems = [
   {
-    label: 'Home',
-    href: '/',
+    label: "Home",
+    href: "/",
   },
   {
-    label: 'Search',
-    href: '/',
+    label: "Search",
+    href: "/",
   },
   {
-    label: 'All Coins',
-    href: '/coins',
+    label: "All Coins",
+    href: "/coins",
   },
 ];
 
 const CHART_COLORS = {
-  background: "#1a1612",
-  text: "#b8a890",
-  grid: "#3d3730",
-  border: "#3d3730",
-  crosshairVertical: "#b8a89060",
-  crosshairHorizontal: "#b8a89030",
+  background: "#181713",
+  text: "#b9aa92",
+  grid: "#342f27",
+  border: "#3a342a",
+  crosshairVertical: "#c8a46c60",
+  crosshairHorizontal: "#c8a46c30",
   candleUp: "#7fb069",
   candleDown: "#d4736e",
 } as const;
@@ -89,34 +89,34 @@ export const getChartConfig = (
   },
   localization: {
     priceFormatter: (price: number) =>
-      '$' + price.toLocaleString(undefined, { maximumFractionDigits: 2 }),
+      "$" + price.toLocaleString(undefined, { maximumFractionDigits: 2 }),
   },
 });
 
 export const PERIOD_CONFIG: Record<
   Period,
-  { days: number | string; interval?: 'hourly' | 'daily' }
+  { days: number | string; interval?: "hourly" | "daily" }
 > = {
-  daily: { days: 1, interval: 'hourly' },
-  weekly: { days: 7, interval: 'hourly' },
-  monthly: { days: 30, interval: 'hourly' },
-  '3months': { days: 90, interval: 'daily' },
-  '6months': { days: 180, interval: 'daily' },
+  daily: { days: 1, interval: "hourly" },
+  weekly: { days: 7, interval: "hourly" },
+  monthly: { days: 30, interval: "hourly" },
+  "3months": { days: 90, interval: "daily" },
+  "6months": { days: 180, interval: "daily" },
   yearly: { days: 365 },
-  max: { days: 'max' },
+  max: { days: "max" },
 };
 
 export const PERIOD_BUTTONS: { value: Period; label: string }[] = [
-  { value: 'daily', label: '1D' },
-  { value: 'weekly', label: '1W' },
-  { value: 'monthly', label: '1M' },
-  { value: '3months', label: '3M' },
-  { value: '6months', label: '6M' },
-  { value: 'yearly', label: '1Y' },
-  { value: 'max', label: 'Max' },
+  { value: "daily", label: "1D" },
+  { value: "weekly", label: "1W" },
+  { value: "monthly", label: "1M" },
+  { value: "3months", label: "3M" },
+  { value: "6months", label: "6M" },
+  { value: "yearly", label: "1Y" },
+  { value: "max", label: "Max" },
 ];
 
-export const LIVE_INTERVAL_BUTTONS: { value: '1s' | '1m'; label: string }[] = [
-  { value: '1s', label: '1s' },
-  { value: '1m', label: '1m' },
+export const LIVE_INTERVAL_BUTTONS: { value: "1s" | "1m"; label: string }[] = [
+  { value: "1s", label: "1s" },
+  { value: "1m", label: "1m" },
 ];

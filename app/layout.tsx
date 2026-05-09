@@ -1,47 +1,35 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-robotic",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-// const bitcountSingle = Bitcount_Single({
-//   variable: "--font-robotic",
-//   weight: "variable",
-//   subsets: ["latin"],
-// });
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
-// Previous root font setup:
-// const silkscreen = Silkscreen({
-//   variable: "--font-robotic",
-//   weight: ["400", "700"],
-//   subsets: ["latin"],
-// });
-// const vt323 = VT323({
-//   variable: "--font-robotic",
-//   weight: "400",
-//   subsets: ["latin"],
-// });
-// const orbitron = Orbitron({
-//   variable: "--font-robotic",
-//   subsets: ["latin"],
-// });
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "SilkSignal",
-  description: "Crypto Screener App with a built-in High-Frequency Terminal & Dashboard",
+  title: "Cryptiq",
+  description: "Premium crypto intelligence terminal for market data, sentiment, and signals.",
+  icons: {
+    icon: {
+      url: "/favicon.svg?v=cryptiq-round-2",
+      type: "image/svg+xml",
+    },
+  },
 };
 
 export default function RootLayout({
@@ -52,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("dark", jetbrainsMono.variable)}
+      className={cn("dark", inter.variable, ibmPlexMono.variable, spaceMono.variable)}
     >
       <body className="min-h-full flex flex-col">
         <Header />
