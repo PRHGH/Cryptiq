@@ -35,9 +35,30 @@ export const useCoinGeckoWebSocket = ({
         return;
       }
       if (msg.type === "confirm_subscription") {
-        const { channel } = JSON.parse(msg?.identifier ?? "");
+        if (typeof msg.identifier !== "string" || msg.identifier.length === 0) {
+          return;
+        }
 
-        subscribed.current.add(channel);
+        try {
+          const parsedIdentifier: unknown = JSON.parse(msg.identifier);
+          const channel =
+            parsedIdentifier &&
+            typeof parsedIdentifier === "object" &&
+            "channel" in parsedIdentifier
+              ? parsedIdentifier.channel
+              : null;
+
+          if (typeof channel === "string" && channel.length > 0) {
+            subscribed.current.add(channel);
+          }
+        } catch (error) {
+          console.error("Failed to parse CoinGecko subscription confirmation", {
+            identifier: msg.identifier,
+            error,
+          });
+        }
+
+        return;
       }
       if (msg.c === "C1") {
         setPrice({
@@ -128,19 +149,19 @@ export const useCoinGeckoWebSocket = ({
       }
     };
 
+    const poolAddress = poolId?.replaceAll("_", ":") ?? "";
+
     queueMicrotask(() => {
+      unsubscribeAll();
+
       setPrice(null);
       setTrades([]);
       setOhlcv(null);
 
-      unsubscribeAll();
-
       subscribe("CGSimplePrice", { coin_id: [coinId], action: "set_tokens" });
-    });
 
-    const poolAddress = poolId?.replaceAll("_", ":") ?? "";
+      if (!poolAddress) return;
 
-    if (poolAddress) {
       subscribe("OnchainTrade", {
         "network_id:pool_addresses": [poolAddress],
         action: "set_pools",
@@ -151,7 +172,7 @@ export const useCoinGeckoWebSocket = ({
         interval: liveInterval,
         action: "set_pools",
       });
-    }
+    });
   }, [coinId, poolId, isWsReady, liveInterval]);
 
   return {

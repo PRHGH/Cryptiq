@@ -10,7 +10,16 @@ export async function GET(request: Request) {
     return NextResponse.json([]);
   }
 
-  const coins = await searchCoins(query);
+  try {
+    const coins = await searchCoins(query);
 
-  return NextResponse.json(coins);
+    return NextResponse.json(coins);
+  } catch (error) {
+    console.error("Coin search request failed", { query, error });
+
+    return NextResponse.json(
+      { error: "Unable to search coins right now. Please try again shortly." },
+      { status: 502 },
+    );
+  }
 }

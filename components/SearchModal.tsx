@@ -67,9 +67,12 @@ export function SearchModal() {
   };
 
   const activeCoins = debouncedQuery ? coins : trendingCoins;
-  const activeHeading = debouncedQuery ? "Coins" : "Trending";
+  const activeHeading = debouncedQuery ? "Search results" : "Trending coins";
   const isIdleState = !debouncedQuery;
   const isActiveLoading = isIdleState ? isTrendingLoading : isLoading;
+  const activeMeta = isIdleState
+    ? "Live market interest"
+    : `${activeCoins.length} ${activeCoins.length === 1 ? "match" : "matches"}`;
 
   return (
     <div id="search-modal">
@@ -99,6 +102,13 @@ export function SearchModal() {
           onValueChange={setQuery}
         />
         <CommandList className="list">
+          <div className="search-summary">
+            <div>
+              <p>{activeHeading}</p>
+              <span>{activeMeta}</span>
+            </div>
+          </div>
+
           {isActiveLoading ? (
             <CommandEmpty className="empty">
               {isIdleState ? "Loading trending coins..." : "Searching..."}
@@ -108,7 +118,7 @@ export function SearchModal() {
           ) : null}
 
           {activeCoins.length > 0 ? (
-            <CommandGroup className="group" heading={activeHeading}>
+            <CommandGroup className="group">
               {activeCoins.map((coin) => (
                 <SearchCoinRow
                   key={coin.id}
@@ -138,6 +148,7 @@ function SearchCoinRow({ coin, onSelect, variant }: SearchModalCoinRowProps) {
   const direction = getTrendDirection(change);
   const rankLabel =
     typeof coin.market_cap_rank === "number" ? `#${coin.market_cap_rank}` : "Unranked";
+  const symbol = coin.symbol.toUpperCase();
 
   return (
     <CommandItem
@@ -155,31 +166,44 @@ function SearchCoinRow({ coin, onSelect, variant }: SearchModalCoinRowProps) {
         />
 
         <div className="coin-info min-w-0 flex-1">
-          <p className="truncate font-medium">{coin.name}</p>
-          <p className="coin-symbol">{coin.symbol}</p>
+          <p className="coin-name">{coin.name}</p>
+          <div className="coin-detail-row">
+            <span className="coin-symbol">{symbol}</span>
+            <span>{variant === "trending" ? rankLabel : coin.id}</span>
+          </div>
         </div>
       </div>
 
       <div className="coin-meta ml-auto flex flex-col items-end gap-0.5 text-right">
         {variant === "trending" ? (
           <>
-            <span className="coin-price">{formatCurrency(price)}</span>
-            <span
-              className={cn("coin-change", {
-                "text-positive": direction === "up",
-                "text-negative": direction === "down",
-                "text-text-secondary": direction === "neutral",
-              })}
-            >
-              {formatPercentage(change)}
-            </span>
+            <div className="metric-row">
+              <span className="metric-label">Price</span>
+              <span className="coin-price">{formatCurrency(price)}</span>
+            </div>
+            <div className="metric-row">
+              <span className="metric-label">24h</span>
+              <span
+                className={cn("coin-change", {
+                  "text-positive": direction === "up",
+                  "text-negative": direction === "down",
+                  "text-text-secondary": direction === "neutral",
+                })}
+              >
+                {formatPercentage(change)}
+              </span>
+            </div>
           </>
         ) : (
           <>
-            <span className="coin-price">{rankLabel}</span>
-            <span className="max-w-32 truncate text-[11px] font-medium text-text-secondary/80">
-              {coin.id}
-            </span>
+            <div className="metric-row">
+              <span className="metric-label">Rank</span>
+              <span className="coin-price">{rankLabel}</span>
+            </div>
+            <div className="metric-row">
+              <span className="metric-label">ID</span>
+              <span className="coin-id">{coin.id}</span>
+            </div>
           </>
         )}
       </div>
