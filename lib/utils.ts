@@ -38,6 +38,21 @@ export function formatPercentage(change: number | null | undefined): string {
   return `${formattedChange}%`;
 }
 
+export function getTrendDirection(
+  value: number | null | undefined,
+  digits = 1,
+): "up" | "down" | "neutral" {
+  if (value === null || value === undefined || isNaN(value)) {
+    return "neutral";
+  }
+
+  const roundedValue = Number(value.toFixed(digits));
+
+  if (roundedValue > 0) return "up";
+  if (roundedValue < 0) return "down";
+  return "neutral";
+}
+
 export function formatCompactNumber(value: number | null | undefined): string {
   if (value === null || value === undefined || !Number.isFinite(value)) {
     return "N/A";
@@ -55,12 +70,22 @@ export function formatCompactNumber(value: number | null | undefined): string {
 }
 
 export function trendingClasses(value: number) {
-  const isTrendingUp = value > 0;
+  const direction = getTrendDirection(value);
 
   return {
-    textClass: isTrendingUp ? "text-green-400" : "text-red-400",
-    bgClass: isTrendingUp ? "bg-green-500/10" : "bg-red-500/10",
-    iconClass: isTrendingUp ? "icon-up" : "icon-down",
+    textClass:
+      direction === "up"
+        ? "text-positive-hover"
+        : direction === "down"
+          ? "text-negative"
+          : "text-text-secondary",
+    bgClass:
+      direction === "up"
+        ? "bg-positive/10"
+        : direction === "down"
+          ? "bg-negative/10"
+          : "bg-text-secondary/10",
+    iconClass: direction === "up" ? "icon-up" : direction === "down" ? "icon-down" : "icon-flat",
   };
 }
 

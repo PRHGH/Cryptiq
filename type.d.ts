@@ -7,14 +7,10 @@ interface NextPageProps {
 
 interface CandlestickChartProps {
   data?: OHLCData[];
-  liveOhlcv?: OHLCData | null;
   coinId: string;
   height?: number;
   children?: React.ReactNode;
-  mode?: "historical" | "live";
   initialPeriod?: Period;
-  liveInterval?: "1s" | "1m";
-  setLiveInterval?: (interval: "1s" | "1m") => void;
 }
 
 interface ConverterProps {
@@ -98,44 +94,6 @@ interface SearchCoin {
     price?: number;
     price_change_percentage_24h: number;
   };
-}
-
-// Chart Section Props (used in ChartSection.tsx)
-interface ChartSectionProps {
-  coinData: {
-    image: { large: string };
-    name: string;
-    symbol: string;
-    market_data: {
-      current_price: { usd: number };
-    };
-  };
-  coinOHLCData: OHLCData[];
-  coinId: string;
-}
-
-interface TopGainersLosers {
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  price: number;
-  priceChangePercentage24h: number;
-}
-
-interface TopGainersLosersResponse {
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  usd: number;
-  usd_24h_change: number;
-  usd_24h_vol: number;
-  market_cap_rank: number;
-}
-
-interface PriceData {
-  usd: number;
 }
 
 interface Trade {
@@ -234,14 +192,6 @@ interface CoinDetailsData {
   tickers: Ticker[];
 }
 
-interface LiveDataProps {
-  coinId: string;
-  poolId: string;
-  coin: CoinDetailsData;
-  coinOHLCData?: OHLCData[];
-  children?: React.ReactNode;
-}
-
 interface CoinHeaderProps {
   name: string;
   image: string;
@@ -297,34 +247,13 @@ interface DataTableProps<T> {
   bodyCellClassName?: string;
 }
 
-type ButtonSize = "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg";
-
-type PaginationLinkProps = {
-  isActive?: boolean;
-  size?: ButtonSize;
-} & React.ComponentProps<"a">;
-
 interface Pagination {
   currentPage: number;
   totalPages: number;
   hasMorePages: boolean;
 }
 
-interface HeaderProps {
-  trendingCoins: TrendingCoin[];
-}
-
 type SearchItemCoin = SearchCoin | TrendingCoin["item"];
-
-interface SearchItemProps {
-  coin: SearchItemCoin;
-  onSelect: (coinId: string) => void;
-  isActiveName: boolean;
-}
-
-interface CoinGeckoErrorBody {
-  error?: string;
-}
 
 type QueryParams = Record<string, string | number | boolean | undefined>;
 

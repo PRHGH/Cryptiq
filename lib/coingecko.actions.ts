@@ -88,3 +88,17 @@ export async function getPools(
     return fallback;
   }
 }
+
+export async function searchCoins(query: string): Promise<SearchCoin[]> {
+  const data = await fetcher<{ coins: SearchCoin[] }>("/search", {
+    query,
+  });
+
+  return data.coins ?? [];
+}
+
+export async function getTrendingCoins(limit = 5): Promise<TrendingCoin["item"][]> {
+  const data = await fetcher<{ coins: TrendingCoin[] }>("/search/trending", undefined, 300);
+
+  return (data.coins ?? []).slice(0, limit).map((coin) => coin.item);
+}

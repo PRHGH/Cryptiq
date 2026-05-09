@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 const WS_BASE = `${process.env.NEXT_PUBLIC_COINGECKO_WEBSOCKET_URL}?x_cg_pro_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`;
 
@@ -11,6 +11,9 @@ export const useCoinGeckoWebSocket = ({
 }: UseCoinGeckoWebSocketProps): UseCoinGeckoWebSocketReturn => {
   const wsRef = useRef<WebSocket | null>(null);
   const subscribed = useRef(<Set<string>>new Set());
+  const latestContextRef = useRef({ coinId, poolId });
+
+  latestContextRef.current = { coinId, poolId };
 
   const [price, setPrice] = useState<ExtendedPriceData | null>(null);
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -25,18 +28,50 @@ export const useCoinGeckoWebSocket = ({
     const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
 
     const handleMessage = (event: MessageEvent) => {
-      const msg: WebSocketMessage = JSON.parse(event.data);
+      if (typeof event.data !== "string") return;
 
-      if (msg.type === 'ping') {
-        send({ type: 'pong' });
+      let msg: WebSocketMessage;
+      try {
+        msg = JSON.parse(event.data) as WebSocketMessage;
+      } catch (error) {
+        console.error("Failed to parse CoinGecko WebSocket message", {
+          error,
+          data: event.data,
+        });
         return;
       }
-      if (msg.type === 'confirm_subscription') {
-        const { channel } = JSON.parse(msg?.identifier ?? '');
 
-        subscribed.current.add(channel);
+      if (msg.type === "ping") {
+        send({ type: "pong" });
+        return;
       }
-      if (msg.c === 'C1') {
+      if (msg.type === "confirm_subscription") {
+        if (typeof msg.identifier !== "string" || msg.identifier.length === 0) {
+          return;
+        }
+
+        try {
+          const parsedIdentifier: unknown = JSON.parse(msg.identifier);
+          const channel =
+            parsedIdentifier &&
+            typeof parsedIdentifier === "object" &&
+            "channel" in parsedIdentifier
+              ? parsedIdentifier.channel
+              : null;
+
+          if (typeof channel === "string" && channel.length > 0) {
+            subscribed.current.add(channel);
+          }
+        } catch (error) {
+          console.error("Failed to parse CoinGecko subscription confirmation", {
+            identifier: msg.identifier,
+            error,
+          });
+        }
+
+        return;
+      }
+      if (msg.c === "C1") {
         setPrice({
           usd: msg.p ?? 0,
           coin: msg.i,
@@ -47,7 +82,7 @@ export const useCoinGeckoWebSocket = ({
           timestamp: msg.t,
         });
       }
-      if (msg.c === 'G2') {
+      if (msg.c === "G2") {
         const newTrade: Trade = {
           price: msg.pu,
           value: msg.vo,
@@ -58,7 +93,7 @@ export const useCoinGeckoWebSocket = ({
 
         setTrades((prev) => [newTrade, ...prev].slice(0, 7));
       }
-      if (msg.ch === 'G3') {
+      if (msg.ch === "G3") {
         const timestamp = msg.t ?? 0;
 
         const candle: OHLCData = [
@@ -79,7 +114,14 @@ export const useCoinGeckoWebSocket = ({
 
     ws.onclose = () => setIsWsReady(false);
 
-    ws.onerror = (error) => {
+    ws.onerror = (event) => {
+      const { coinId: currentCoinId, poolId: currentPoolId } = latestContextRef.current;
+
+      console.error("CoinGecko WebSocket error", {
+        coinId: currentCoinId,
+        poolId: currentPoolId,
+        event,
+      });
       setIsWsReady(false);
     };
 
@@ -91,12 +133,21 @@ export const useCoinGeckoWebSocket = ({
     const ws = wsRef.current;
     if (!ws) return;
 
-    const send = (payload: Record<string, unknown>) => ws.send(JSON.stringify(payload));
+    const send = (payload: Record<string, unknown>) => {
+      if (ws.readyState !== WebSocket.OPEN) return false;
+      try {
+        ws.send(JSON.stringify(payload));
+        return true;
+      } catch (error) {
+        console.error("CoinGecko WebSocket send failed", { error, payload });
+        return false;
+      }
+    };
 
     const unsubscribeAll = () => {
       subscribed.current.forEach((channel) => {
         send({
-          command: 'unsubscribe',
+          command: "unsubscribe",
           identifier: JSON.stringify({ channel }),
         });
       });
@@ -106,42 +157,41 @@ export const useCoinGeckoWebSocket = ({
 
     const subscribe = (channel: string, data?: Record<string, unknown>) => {
       if (subscribed.current.has(channel)) return;
-
-      send({ command: 'subscribe', identifier: JSON.stringify({ channel }) });
+      if (!send({ command: "subscribe", identifier: JSON.stringify({ channel }) })) return;
 
       if (data) {
         send({
-          command: 'message',
+          command: "message",
           identifier: JSON.stringify({ channel }),
           data: JSON.stringify(data),
         });
       }
     };
 
+    const poolAddress = poolId?.replaceAll("_", ":") ?? "";
+
     queueMicrotask(() => {
+      unsubscribeAll();
+
       setPrice(null);
       setTrades([]);
       setOhlcv(null);
 
-      unsubscribeAll();
+      subscribe("CGSimplePrice", { coin_id: [coinId], action: "set_tokens" });
 
-      subscribe('CGSimplePrice', { coin_id: [coinId], action: 'set_tokens' });
-    });
+      if (!poolAddress) return;
 
-    const poolAddress = poolId.replace('_', ':') ?? '';
-
-    if (poolAddress) {
-      subscribe('OnchainTrade', {
-        'network_id:pool_addresses': [poolAddress],
-        action: 'set_pools',
+      subscribe("OnchainTrade", {
+        "network_id:pool_addresses": [poolAddress],
+        action: "set_pools",
       });
 
-      subscribe('OnchainOHLCV', {
-        'network_id:pool_addresses': [poolAddress],
+      subscribe("OnchainOHLCV", {
+        "network_id:pool_addresses": [poolAddress],
         interval: liveInterval,
-        action: 'set_pools',
+        action: "set_pools",
       });
-    }
+    });
   }, [coinId, poolId, isWsReady, liveInterval]);
 
   return {
