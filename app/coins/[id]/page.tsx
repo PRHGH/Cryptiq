@@ -39,10 +39,7 @@ const Page = async ({ params }: NextPageProps) => {
 
     {
       label: "Market Cap Rank",
-      value:
-        typeof coinData.market_cap_rank === "number"
-          ? `# ${coinData.market_cap_rank}`
-          : "N/A",
+      value: typeof coinData.market_cap_rank === "number" ? `# ${coinData.market_cap_rank}` : "N/A",
     },
 
     {
@@ -76,7 +73,7 @@ const Page = async ({ params }: NextPageProps) => {
     {
       header: "Exchange",
       cellClassName: "exchange-cell",
-      cell: (ticker) => (
+      cell: (ticker) =>
         ticker.trade_url ? (
           <Link
             href={ticker.trade_url}
@@ -88,8 +85,7 @@ const Page = async ({ params }: NextPageProps) => {
           </Link>
         ) : (
           <span aria-disabled="true">{ticker.market.name}</span>
-        )
-      ),
+        ),
     },
     {
       header: "Pair",
@@ -108,7 +104,7 @@ const Page = async ({ params }: NextPageProps) => {
     {
       header: "Spread",
       cellClassName: "spread-cell",
-      cell: (ticker) => `${ticker.bid_ask_spread_percentage.toFixed(3)}%`,
+      cell: (ticker) => `${ticker.bid_ask_spread_percentage?.toFixed(3) || 0}%`,
     },
     {
       header: "Updated",
@@ -192,7 +188,7 @@ const Page = async ({ params }: NextPageProps) => {
           sentimentVotesUpPercentage={coinData.sentiment_votes_up_percentage}
           sentimentVotesDownPercentage={coinData.sentiment_votes_down_percentage}
           communityData={coinData.community_data}
-        />        
+        />
       </section>
     </main>
   );
