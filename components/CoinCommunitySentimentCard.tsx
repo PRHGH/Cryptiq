@@ -46,14 +46,14 @@ const CoinCommunitySentimentCard = ({
         <div className="sentiment-row">
           <div className="sentiment-item">
             <p className="label">Bullish</p>
-            <p className="value text-green-500">
+            <p className="value text-positive">
               {formatSentimentPercentage(sentimentVotesUpPercentage)}
             </p>
           </div>
 
           <div className="sentiment-item">
             <p className="label">Bearish</p>
-            <p className="value text-red-500">
+            <p className="value text-negative">
               {formatSentimentPercentage(sentimentVotesDownPercentage)}
             </p>
           </div>

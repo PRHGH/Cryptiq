@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { SearchModal } from "./SearchModal";
 
 const Header = () => {
   const pathname = usePathname();
@@ -11,7 +12,7 @@ const Header = () => {
     <header>
       <div className="main-container inner">
         <Link href="/" className="brand" aria-label="Cryptiq home">
-          <Image src="/logo.svg" alt="Cryptiq logo" width={32} height={32} className="brand-logo" />
+          <Image src="/logo.svg" alt="Cryptiq logo" width={50} height={50} className="brand-logo" />
           <span className="brand-text">Cryptiq</span>
         </Link>
 
@@ -30,6 +31,8 @@ const Header = () => {
           >
             Home
           </Link>
+
+          <SearchModal />
 
           <Link
             href="/coins"

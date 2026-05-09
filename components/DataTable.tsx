@@ -28,7 +28,7 @@ const DataTable = <T,>({
             <TableHead
               key={i}
               className={cn(
-                "bg-dark-400, text-purple-100 py-4 first:pl-5 last:pr-5",
+                "bg-surface-elevated text-text-secondary py-4 first:pl-5 last:pr-5",
                 headerCellClassName,
                 column.headClassName,
               )}
@@ -43,7 +43,7 @@ const DataTable = <T,>({
           <TableRow
             key={rowKey(row, rowIndex)}
             className={cn(
-              "overflow-hidden rounded-lg border-b border-purple-100/5 hover:bg-dark-400/35! hover:shadow-[inset_2px_0_0_rgba(200,164,108,0.38)] transition-all relative",
+              "overflow-hidden rounded-lg border-b border-text-secondary/5 hover:bg-surface-elevated/35! hover:shadow-[inset_2px_0_0_rgba(200,164,108,0.38)] transition-all relative",
               bodyRowClassName,
             )}
           >

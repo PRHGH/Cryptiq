@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 const WS_BASE = `${process.env.NEXT_PUBLIC_COINGECKO_WEBSOCKET_URL}?x_cg_pro_api_key=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`;
 
@@ -27,16 +27,16 @@ export const useCoinGeckoWebSocket = ({
     const handleMessage = (event: MessageEvent) => {
       const msg: WebSocketMessage = JSON.parse(event.data);
 
-      if (msg.type === 'ping') {
-        send({ type: 'pong' });
+      if (msg.type === "ping") {
+        send({ type: "pong" });
         return;
       }
-      if (msg.type === 'confirm_subscription') {
-        const { channel } = JSON.parse(msg?.identifier ?? '');
+      if (msg.type === "confirm_subscription") {
+        const { channel } = JSON.parse(msg?.identifier ?? "");
 
         subscribed.current.add(channel);
       }
-      if (msg.c === 'C1') {
+      if (msg.c === "C1") {
         setPrice({
           usd: msg.p ?? 0,
           coin: msg.i,
@@ -47,7 +47,7 @@ export const useCoinGeckoWebSocket = ({
           timestamp: msg.t,
         });
       }
-      if (msg.c === 'G2') {
+      if (msg.c === "G2") {
         const newTrade: Trade = {
           price: msg.pu,
           value: msg.vo,
@@ -58,7 +58,7 @@ export const useCoinGeckoWebSocket = ({
 
         setTrades((prev) => [newTrade, ...prev].slice(0, 7));
       }
-      if (msg.ch === 'G3') {
+      if (msg.ch === "G3") {
         const timestamp = msg.t ?? 0;
 
         const candle: OHLCData = [
@@ -79,7 +79,7 @@ export const useCoinGeckoWebSocket = ({
 
     ws.onclose = () => setIsWsReady(false);
 
-    ws.onerror = (error) => {
+    ws.onerror = () => {
       setIsWsReady(false);
     };
 
@@ -96,7 +96,7 @@ export const useCoinGeckoWebSocket = ({
     const unsubscribeAll = () => {
       subscribed.current.forEach((channel) => {
         send({
-          command: 'unsubscribe',
+          command: "unsubscribe",
           identifier: JSON.stringify({ channel }),
         });
       });
@@ -107,11 +107,11 @@ export const useCoinGeckoWebSocket = ({
     const subscribe = (channel: string, data?: Record<string, unknown>) => {
       if (subscribed.current.has(channel)) return;
 
-      send({ command: 'subscribe', identifier: JSON.stringify({ channel }) });
+      send({ command: "subscribe", identifier: JSON.stringify({ channel }) });
 
       if (data) {
         send({
-          command: 'message',
+          command: "message",
           identifier: JSON.stringify({ channel }),
           data: JSON.stringify(data),
         });
@@ -125,21 +125,21 @@ export const useCoinGeckoWebSocket = ({
 
       unsubscribeAll();
 
-      subscribe('CGSimplePrice', { coin_id: [coinId], action: 'set_tokens' });
+      subscribe("CGSimplePrice", { coin_id: [coinId], action: "set_tokens" });
     });
 
-    const poolAddress = poolId.replace('_', ':') ?? '';
+    const poolAddress = poolId.replace("_", ":") ?? "";
 
     if (poolAddress) {
-      subscribe('OnchainTrade', {
-        'network_id:pool_addresses': [poolAddress],
-        action: 'set_pools',
+      subscribe("OnchainTrade", {
+        "network_id:pool_addresses": [poolAddress],
+        action: "set_pools",
       });
 
-      subscribe('OnchainOHLCV', {
-        'network_id:pool_addresses': [poolAddress],
+      subscribe("OnchainOHLCV", {
+        "network_id:pool_addresses": [poolAddress],
         interval: liveInterval,
-        action: 'set_pools',
+        action: "set_pools",
       });
     }
   }, [coinId, poolId, isWsReady, liveInterval]);

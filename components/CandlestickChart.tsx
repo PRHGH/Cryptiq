@@ -94,11 +94,6 @@ const CandlestickChart = ({
       <div className="chart-header">
         <div className="flex-1">{children}</div>
         <div className="button-group">
-          <span className="live-indicator">
-            <span />
-            LIVE
-          </span>
-          <span className="text-sm mx-2 font-medium text-purple-100/50">Period:</span>
           {PERIOD_BUTTONS.map(({ value, label }) => (
             <button
               key={value}
